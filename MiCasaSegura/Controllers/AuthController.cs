@@ -10,7 +10,10 @@ namespace MiCasaSegura.Controllers
 {
     public class AuthController : Controller
     {
-        // GET: /<controller>/
+        public AuthController()
+        {
+        }
+
         public IActionResult Index()
         {
             return View();
