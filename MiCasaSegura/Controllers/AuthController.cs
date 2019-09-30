@@ -16,6 +16,7 @@ namespace MiCasaSegura.Controllers
 
         public IActionResult Index()
         {
+            //added comment
             return View();
         }
     }
