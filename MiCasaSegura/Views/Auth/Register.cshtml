@@ -1,0 +1,108 @@
+﻿@model MiCasaSegura.ViewModels.Auth.RegisterVM
+<!doctype html>
+<html lang="es-co">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Log in Horizontal | Dashboard UI Kit</title>
+        <meta name="description" content="Dashboard UI Kit">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600" rel="stylesheet">
+
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+        <!-- Stylesheet -->
+        <link rel="stylesheet" href="/css/main.css">
+    </head>
+    <body class="o-page o-page--center">
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        <div class="o-page__card o-page__card--horizontal" style="width:900px">
+            <div class="c-card c-login-horizontal u-mb-small">
+                <div class="c-login__content-wrapper">
+                    <header class="c-login__header">
+                        <a class="c-login__icon c-login__icon--rounded c-login__icon--left"
+                           asp-action="Index"
+                           asp-controller="Home">
+                            <img src="/img/logo-login.svg" alt="Dashboard's Logo">
+                        </a>
+
+                        <h2 class="c-login__title">Registrarse</h2>
+                    </header>
+                    
+                    <form method="post" class="c-login__content">
+                        <div class="c-field u-mb-small u-width-49 u-inline-block">
+                            <label class="c-field__label" asp-for="UserData.FirstName">Nombres</label> 
+                            <input class="c-input" asp-for="UserData.FirstName" placeholder="Juan"> 
+                        </div>
+
+                        <div class="c-field u-mb-small u-width-50 u-inline-block">
+                            <label class="c-field__label" asp-for="UserData.LastNames">Apellidos</label> 
+                            <input class="c-input" asp-for="UserData.LastNames" placeholder="Lopez"> 
+                        </div>
+
+                        <div class="c-field u-mb-small">
+                            <label class="c-field__label" asp-for="UserData.Email">Correo electronico</label> 
+                            <input class="c-input" type="email" asp-for="UserData.Email" placeholder="juanlopez@gmail.com"> 
+                        </div>
+
+                        <div class="c-field u-mb-small u-width-49 u-inline-block">
+                            <label class="c-field__label" asp-for="UserData.Password">Contraseña</label> 
+                            <input class="c-input" type="password" asp-for="UserData.Password" placeholder="clave, muy, segura..."> 
+                        </div>
+
+                        <div class="c-field u-mb-small u-width-50 u-inline-block">
+                            <label class="c-field__label" for="passwordConfirmation">Confirmar Contraseña</label> 
+                            <input class="c-input" type="password" id="passwordConfirmation" placeholder="clave, muy, segura..."> 
+                        </div>
+
+                        <button class="c-btn c-btn--success c-btn--fullwidth" type="submit">Ingresar</button>
+
+                        <span class="c-divider c-divider--small has-text u-mv-medium">Ingresa Con Las Redes</span>
+
+                        @foreach(var provider in Model.Providers)
+                        {
+                            @if(provider.ToLower().Equals("facebook"))
+                            {
+                                <a style="margin-bottom: 10px" class="c-btn c-btn--secondary c-btn--fullwidth" asp-action="SignIn" asp-route-provider="@provider">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            } else
+                            {
+                                <a class="c-btn c-btn--secondary c-btn--fullwidth" asp-action="SignIn" asp-route-provider="@provider">
+                                    <img style="width:15px" src="https://www.microsoft.com/favicon.ico"/>
+                                </a>
+                            }
+                        }
+
+                        <!--<span class="c-divider c-divider--small has-text u-mv-medium">¿No Tienes Cuenta?</span>
+
+                        <a href="#" class="c-btn c-btn--secondary c-btn--fullwidth">Crea Una Cuenta</a>-->
+                    </form>
+                </div>
+
+                <div class="c-login__content-image">
+                    <img src="/img/login2.jpg" alt="Welcome to Dashboard UI Kit">
+
+                    <h3>Bienvenido a Mi Casa Segura</h3>
+                    <p class="u-text-large">
+                        Esta interfaz fue diseñada con la intención de ayudar a
+                        gestionar tus dispositivos, planes y servicios.
+                    </p>
+                </div>
+            </div>
+            <div class="o-line">
+                <a class="u-text-mute u-text-small" asp-action="Login">Ya Tienes una cuenta? Ingresa</a>
+                <a class="u-text-mute u-text-small" asp-action="ForgotPassword">Olvidaste tu contraseña?</a>
+            </div>
+        </div>
+
+        <script src="/js/main.js"></script>
+    </body>
+</html>

@@ -7,6 +7,5 @@ namespace MiCasaSegura.Models.Identity
     {
         public string FirstName { get; set; }
         public string LastNames { get; set; }
-        public string Address { get; set; }
     }
 }

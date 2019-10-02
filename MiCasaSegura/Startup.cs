@@ -46,6 +46,22 @@ namespace MiCasaSegura
                 options.User.RequireUniqueEmail = true;
 
             }).AddEntityFrameworkStores<MiCasaSeguraDbContext>();
+
+            services.ConfigureApplicationCookie(options => {
+                options.LoginPath = "/Auth/Login";
+            });
+
+            services.AddAuthentication(options => {
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+            }).AddFacebook(facebookOptions => {
+                facebookOptions.AppId = "985083918501303";
+                facebookOptions.AppSecret= "e006547f389831fc72440efb8d7fa27f";
+            }).AddMicrosoftAccount(microsoftOptions => {
+                microsoftOptions.ClientId = "e6414f73-426d-4a2c-9da3-6dc52630fe63";
+                microsoftOptions.ClientSecret = "z:P[MyKwWTHmQ2Xkmz4X-H3yUgf4SC:7";
+            }).AddCookie();
             
             services.AddMvc();
         }
