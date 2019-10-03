@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiCasaSegura.Filters;
 using MiCasaSegura.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MiCasaSegura.Controllers
 {
-    [Authorize]
+    [Authorize, ServiceFilter(typeof(MissingUserInfo))]
+    //[Authorize]
     public class DashboardController : Controller
     {
         private UserManager<User> userManager;

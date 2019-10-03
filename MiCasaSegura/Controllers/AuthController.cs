@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using MiCasaSegura.Filters;
 using MiCasaSegura.Models.Identity;
 using MiCasaSegura.ViewModels.Auth;
 using Microsoft.AspNetCore.Authentication;
@@ -31,6 +32,7 @@ namespace MiCasaSegura.Controllers
             this.roleManager = roleManager;
         }
 
+        [ServiceFilter(typeof(AnonymousOnly))]
         public async Task<IActionResult> Login()
         {
             var providers = (await authenticationSchemeProvider.GetAllSchemesAsync())
@@ -43,25 +45,29 @@ namespace MiCasaSegura.Controllers
             return View(loginVM);
         }
 
-        [HttpPost]
+        [HttpPost, ServiceFilter(typeof(AnonymousOnly))]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
-            if (ModelState.IsValid)
+            User userProfile = await userManager.FindByEmailAsync(loginVM.LoginUserData.Email);
+
+            if (ModelState.IsValid && userProfile != null)
             {
-                var userProfile = await userManager.FindByEmailAsync(loginVM.LoginUserData.Email);
                 var attempt = await signInManager.PasswordSignInAsync(userProfile.UserName, loginVM.LoginUserData.Password, false, false);
 
                 if (attempt.Succeeded)
                 {
-                    Console.WriteLine("antes de entrar al dashboard");
                     Console.WriteLine(attempt);
                     return RedirectToAction("Index", "Dashboard");
                 }
             }
 
-            return View();
+            loginVM.Providers = (await authenticationSchemeProvider.GetAllSchemesAsync())
+                .Select(provider => provider.DisplayName).Where(name => !string.IsNullOrWhiteSpace(name));
+
+            return View(loginVM);
         }
 
+        [ServiceFilter(typeof(AnonymousOnly))]
         public async Task<IActionResult> Register()
         {
             var providers = (await authenticationSchemeProvider.GetAllSchemesAsync())
@@ -93,6 +99,7 @@ namespace MiCasaSegura.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AnonymousOnly))]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -136,8 +143,8 @@ namespace MiCasaSegura.Controllers
         public async Task<IActionResult> CreatePassword()
         {
 
-            var email = User.FindFirstValue(ClaimTypes.Email);
-            var userInfo = await userManager.FindByEmailAsync(email == null ? "" : email);
+            var email = User.Identity.Name;
+            var userInfo = await userManager.FindByEmailAsync(email);
 
             if (userInfo == null)
             {
@@ -151,7 +158,10 @@ namespace MiCasaSegura.Controllers
         [HttpPost, Authorize]
         public async Task<IActionResult> CreatePassword(User user)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrEmpty(user.PasswordHash)
+                && !string.IsNullOrEmpty(user.FirstName)
+                && !string.IsNullOrEmpty(user.LastNames)
+                && ModelState.IsValid)
             {
                 user.UserName = HttpContext.User.FindFirstValue(ClaimTypes.Email);
                 user.Email = user.UserName;

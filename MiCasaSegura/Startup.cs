@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MiCasaSegura.Filters;
 using MiCasaSegura.Models.Identity;
 using MiCasaSegura.Services.Database;
 using Microsoft.AspNetCore.Builder;
@@ -62,7 +63,10 @@ namespace MiCasaSegura
                 microsoftOptions.ClientId = "e6414f73-426d-4a2c-9da3-6dc52630fe63";
                 microsoftOptions.ClientSecret = "z:P[MyKwWTHmQ2Xkmz4X-H3yUgf4SC:7";
             }).AddCookie();
-            
+
+            services.AddScoped<AnonymousOnly>();
+            services.AddScoped<MissingUserInfo>();
+
             services.AddMvc();
         }
 

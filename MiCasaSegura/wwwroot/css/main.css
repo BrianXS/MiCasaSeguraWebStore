@@ -13576,3 +13576,7 @@ textarea.c-input {
   opacity: 0; }
   .fade.show {
     opacity: 1; }
+
+  .transparent-hover {
+      background: transparent;
+  }

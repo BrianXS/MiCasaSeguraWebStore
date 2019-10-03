@@ -15,7 +15,7 @@
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
         <!-- Stylesheet -->
-        <link rel="stylesheet" href="/css/main.min.css">
+        <link rel="stylesheet" href="/css/main.css">
     </head>
     <body class="o-page">
         <!--[if lte IE 9]>
@@ -365,7 +365,11 @@
                     <div class="c-dropdown__menu dropdown-menu dropdown-menu-right" aria-labelledby="dropdwonMenuAvatar">
                         <a class="c-dropdown__item dropdown-item" href="#">Edit Profile</a>
                         <a class="c-dropdown__item dropdown-item" href="#">View Activity</a>
-                        <a class="c-dropdown__item dropdown-item" href="#">Manage Roles</a>
+                        <form asp-action="Logout" asp-controller="Auth" method="post" class="c-dropdown__item dropdown-item u-width-100 u-p-xsmall">
+                            <button type="submit" style="text-align: left" class="u-border-top-zero u-border-left-zero u-border-right-zero u-border-bottom-zero u-text-small u-width-100 transparent-hover">
+                                Salir
+                            </button>
+                        </form>
                     </div>
                 </div>
             </header>
